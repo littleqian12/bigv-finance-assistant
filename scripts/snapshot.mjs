@@ -26,6 +26,14 @@ function deepMask(value) {
   return value;
 }
 
+function capArrays(value, max = 10) {
+  if (Array.isArray(value)) return value.slice(0, max).map((item) => capArrays(item, max));
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, capArrays(item, max)]));
+  }
+  return value;
+}
+
 async function getJson(pathname) {
   const response = await fetch(`${BASE}${pathname}`, { signal: AbortSignal.timeout(60000) });
   if (!response.ok) throw new Error(`${pathname} -> HTTP ${response.status}`);
@@ -53,7 +61,7 @@ async function writeRaw(name, buffer) {
 async function main() {
   await mkdir(OUT, { recursive: true });
 
-  const dashboard = await getJson('/api/dashboard');
+  const dashboard = capArrays(await getJson('/api/dashboard'), 6);
   dashboard.generated_at = GENERATED_AT;
   if (dashboard.data_freshness) {
     dashboard.data_freshness.read_at = READ_AT;
