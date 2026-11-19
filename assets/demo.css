@@ -1,0 +1,4 @@
+.demo-banner{position:sticky;top:0;z-index:200;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 20px;background:#071c17;border-bottom:1px solid #1d4a3a;color:#d8e8df;padding:9px 18px;font:12px/1.5 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;letter-spacing:.01em}
+.demo-banner strong{color:#66e3a4;font-weight:700}
+.demo-banner-note{color:#8fa89b;font-size:11px}
+@media(max-width:640px){.demo-banner{justify-content:flex-start;font-size:11px;padding:8px 12px}.demo-banner-note{font-size:10px}}
