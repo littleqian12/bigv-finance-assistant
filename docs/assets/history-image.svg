@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420">
+  <rect width="720" height="420" fill="#0b1a15"/>
+  <rect x="24" y="24" width="672" height="372" rx="18" fill="#10241c" stroke="#244d3c"/>
+  <text x="360" y="198" fill="#66e3a4" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,sans-serif" font-size="22" text-anchor="middle">图片证据已脱敏</text>
+  <text x="360" y="234" fill="#8fa89b" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,sans-serif" font-size="14" text-anchor="middle">静态演示占位图 · 不包含原始图片</text>
+</svg>

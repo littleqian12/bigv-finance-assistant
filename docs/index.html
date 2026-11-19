@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <meta name="robots" content="noindex,nofollow">
+    <title>小马甲决策指挥台 · 静态演示</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/demo.css">
+  </head>
+  <body>
+    <div class="demo-banner" role="status">
+      <span><strong>静态数据快照</strong> · 本机读取于 2026/11/15 22:45 · 来源 小马甲（雪球用户 xxxx）</span>
+      <span class="demo-banner-note">非实时 · 已脱敏 · 交互仅作前端模拟 · 不构成投资建议</span>
+    </div>
+    <main class="page-shell">
+      <header class="hero">
+        <p class="eyebrow">STATIC · READ ONLY</p>
+        <h1>小马甲决策指挥台</h1>
+        <p class="hero-copy">左侧可在小马甲研究、Author Agents 与基础能力之间切换。归档页面读取本机研究记录，浏览器手动刷新会读取最新归档；Kronos 标签页可手动获取行情并运行本地预测，不触发交易。当前页面为静态数据快照，交互只在前端模拟，不连接本机服务。</p>
+        <p id="generated-at" class="generated-at">正在读取本地归档…</p>
+        <p id="dashboard-load-status" class="dashboard-load-status" aria-live="polite">正在读取本机最新归档…</p>
+      </header>
+
+      <section id="coverage-warning" class="coverage-warning" hidden aria-live="polite"></section>
+      <section id="dashboard-error" class="dashboard-error" hidden aria-live="assertive"></section>
+
+      <section class="dashboard-layout" aria-label="看板内容">
+        <nav id="dashboard-tabs" class="dashboard-tabs" aria-label="看板视图" role="tablist">
+          <p class="eyebrow">VIEWS</p>
+          <button id="dashboard-tab-xiaomajia" type="button" class="dashboard-tab is-selected" role="tab" data-dashboard-tab="xiaomajia" aria-controls="tab-xiaomajia" aria-selected="true">小马甲</button>
+          <button id="dashboard-tab-hermes" type="button" class="dashboard-tab" role="tab" data-dashboard-tab="hermes" aria-controls="tab-hermes" aria-selected="false">Hermes</button>
+          <button id="dashboard-tab-authors" type="button" class="dashboard-tab" role="tab" data-dashboard-tab="authors" aria-controls="tab-authors" aria-selected="false">Author Agents</button>
+          <button id="dashboard-tab-foundation" type="button" class="dashboard-tab" role="tab" data-dashboard-tab="foundation" aria-controls="tab-foundation" aria-selected="false">基础能力</button>
+        </nav>
+
+        <div class="dashboard-tab-content">
+          <section id="tab-xiaomajia" class="dashboard-tab-panel" role="tabpanel" aria-labelledby="dashboard-tab-xiaomajia">
+            <nav id="xiaomajia-secondary-nav" class="secondary-nav" aria-label="小马甲研究详情" role="tablist">
+              <button id="route-today" type="button" class="secondary-nav-button is-selected" role="tab" data-xiaomajia-route="today" aria-controls="view-today" aria-selected="true">今日作战室</button>
+              <button id="route-next-day" type="button" class="secondary-nav-button" role="tab" data-xiaomajia-route="next-day" aria-controls="view-next-day" aria-selected="false">隔日建议</button>
+              <button id="route-diagnostics" type="button" class="secondary-nav-button" role="tab" data-xiaomajia-route="diagnostics" aria-controls="view-diagnostics" aria-selected="false">采集诊断</button>
+              <button id="route-kronos" type="button" class="secondary-nav-button" role="tab" data-xiaomajia-route="kronos" aria-controls="view-kronos" aria-selected="false">Kronos 预测</button>
+              <button id="route-logic" type="button" class="secondary-nav-button" role="tab" data-xiaomajia-route="logic" aria-controls="view-logic" aria-selected="false">历史逻辑链</button>
+              <button id="route-inspirations" type="button" class="secondary-nav-button" role="tab" data-xiaomajia-route="inspirations" aria-controls="view-inspirations" aria-selected="false">随笔沉淀</button>
+              <button id="route-rag" type="button" class="secondary-nav-button" role="tab" data-xiaomajia-route="rag" aria-controls="view-rag" aria-selected="false">RAG 优化</button>
+              <button id="route-operations" type="button" class="secondary-nav-button" role="tab" data-xiaomajia-route="operations" aria-controls="view-operations" aria-selected="false">运行状态</button>
+            </nav>
+
+            <section id="global-archive-search" hidden class="global-archive-search" aria-label="全局搜索本地归档">
+              <label for="global-archive-search-input">全局搜索</label>
+              <input id="global-archive-search-input" type="search" placeholder="搜索全部本地归档原帖，例如：天孚、光模块、买入" autocomplete="off">
+              <p id="global-archive-search-status" aria-live="polite">覆盖全部本地归档原帖；仅检索本机已有数据，不触发抓取。</p>
+              <div id="global-archive-search-results" class="global-archive-search-results" aria-live="polite" hidden></div>
+            </section>
+
+            <section id="view-today" class="xiaomajia-view" data-xiaomajia-view="today" role="tabpanel" aria-labelledby="route-today">
+              <section id="today-daily-review" class="panel daily-review-panel" aria-label="日报与历史日报">
+                <div class="panel-heading"><div><p class="eyebrow">DAILY REVIEW</p><h2>今日日报与历史复盘</h2></div><div class="daily-review-controls"><label for="daily-review-picker">选择日报</label><select id="daily-review-picker" aria-label="选择日报"><option>读取中…</option></select><button id="daily-review-refresh" type="button">刷新日报</button></div></div>
+                <p id="daily-review-status" class="today-panel-copy" aria-live="polite">正在读取今日日报…</p>
+                <article id="daily-review-body" class="daily-review-body" aria-label="日报正文"></article>
+              </section>
+            </section>
+
+            <section id="view-next-day" class="xiaomajia-view" data-xiaomajia-view="next-day" role="tabpanel" aria-labelledby="route-next-day" hidden>
+              <section id="next-day-reviews" class="panel daily-review-panel" aria-label="隔日建议与历史回放">
+                <div class="panel-heading"><div><p class="eyebrow">AFTER CLOSE · NEXT SESSION</p><h2>隔日建议与回放测试</h2></div><div class="daily-review-controls"><label for="next-day-review-picker">选择报告</label><select id="next-day-review-picker" aria-label="选择隔日建议"><option>读取中…</option></select><button id="next-day-review-refresh" type="button">刷新建议</button></div></div>
+                <p class="today-panel-copy">先看总体结论与板块、个股分级，再逐帖深挖盘后新增线索；可切换历史版本对照。历史回放单独标注；方向线索与本人执行分别核对。</p>
+                <p id="next-day-review-status" class="today-panel-copy" aria-live="polite">正在读取隔日建议…</p>
+                <article id="next-day-review-body" class="daily-review-body" aria-label="隔日建议正文"></article>
+                <div id="next-day-review-audit" class="daily-review-body" aria-label="逐帖核对"></div>
+              </section>
+            </section>
+
+            <section id="view-diagnostics" class="xiaomajia-view" data-xiaomajia-view="diagnostics" role="tabpanel" aria-labelledby="route-diagnostics" hidden>
+              <section class="panel"><div class="panel-heading"><div><p class="eyebrow">CAPTURE DIAGNOSTICS</p><h2>采集与日报失败分析</h2></div><button id="capture-diagnostics-refresh" type="button" class="overview-link">刷新诊断</button></div><div id="capture-diagnostics-body" aria-live="polite"></div></section>
+            </section>
+
+            <section id="view-kronos" class="xiaomajia-view" data-xiaomajia-view="kronos" role="tabpanel" aria-labelledby="route-kronos" hidden>
+              <section class="panel kronos-panel">
+                <div class="panel-heading"><div><p class="eyebrow">MARKET FORECAST · LOCAL MODEL</p><h2>Kronos 行情预测</h2></div><button id="kronos-refresh" type="button">刷新运行记录</button></div>
+                <p>使用真实收盘日线，生成未来五个交易日的采样路径，并与“价格不变”基准做近期历史检验。预测与作者观点独立展示。</p>
+                <form id="kronos-form" class="kronos-form">
+                  <label for="kronos-symbol">A 股代码<input id="kronos-symbol" name="symbol" inputmode="numeric" pattern="[036][0-9]{5}" maxlength="6" placeholder="例如 603186" required></label>
+                  <label for="kronos-lookback">历史窗口<select id="kronos-lookback" name="lookback"><option value="60">60 个交易日</option><option value="400">400 个交易日</option></select></label>
+                  <button id="kronos-run" type="submit">获取行情并开始预测</button>
+                </form>
+                <p id="kronos-environment" class="muted-copy"></p>
+                <p id="kronos-status" class="kronos-status" role="status" aria-live="polite">正在读取本机预测记录…</p>
+                <div class="kronos-layout"><aside><h3>运行记录</h3><div id="kronos-jobs"></div></aside><div id="kronos-result"><p>选择一条运行记录，或输入代码开始预测。</p></div></div>
+              </section>
+            </section>
+
+            <section id="view-logic" class="xiaomajia-view" data-xiaomajia-view="logic" role="tabpanel" aria-labelledby="route-logic" hidden>
+              <section class="panel">
+                <div class="panel-heading"><div><p class="eyebrow">LOGIC HISTORY</p><h2>历史逻辑链与验证结果</h2></div><div class="daily-review-controls"><button id="logic-market-refresh" type="button">更新行情</button><button id="logic-history-refresh" type="button">刷新逻辑链</button></div></div>
+                <p>核对原判断与后续证据，保留失败原因和未决问题。历史重建与事前预测分别统计；交易亏损不等于参与判断错误。</p>
+                <div id="logic-history-summary" aria-live="polite"></div>
+                <div class="daily-review-controls"><label for="logic-history-filter">验证状态</label><select id="logic-history-filter"><option value="all">全部逻辑链</option><option value="success">逻辑验证成功</option><option value="failure">逻辑验证失败</option><option value="pending">待验证</option><option value="strategy_failure">策略反馈失败</option></select></div>
+                <div id="logic-history-list" aria-live="polite"></div>
+                <dialog id="logic-history-dialog" aria-labelledby="logic-history-dialog-title">
+                  <div class="logic-dialog-heading"><h2 id="logic-history-dialog-title">逻辑链分析详情</h2><button id="logic-history-close" type="button" aria-label="关闭逻辑链详情">关闭 ×</button></div>
+                  <section id="logic-history-detail" aria-live="polite"></section>
+                </dialog>
+              </section>
+            </section>
+
+            <section id="view-inspirations" class="xiaomajia-view" data-xiaomajia-view="inspirations" role="tabpanel" aria-labelledby="route-inspirations" hidden>
+              <div class="view-intro">
+                <p class="eyebrow">REFLECTIONS</p>
+                <h2>小马甲随笔沉淀</h2>
+                <p>收录非交易的生活、亲情与自我修行感悟；按原帖时间倒序，置顶内容显示在最前。进入本页会重新读取归档。</p>
+              </div>
+              <section class="panel inspiration-panel" aria-label="小马甲随笔沉淀">
+                <div class="panel-heading">
+                  <div>
+                    <p class="eyebrow">LOCAL READER LIST</p>
+                    <h2>收藏与置顶</h2>
+                  </div>
+                  <button id="inspiration-refresh" type="button" class="overview-link">刷新随笔</button>
+                </div>
+                <p id="inspiration-summary" class="history-summary" aria-live="polite"></p>
+                <div id="inspiration-list" class="inspiration-list" aria-live="polite"></div>
+              </section>
+            </section>
+
+            <section id="view-rag" class="xiaomajia-view" data-xiaomajia-view="rag" role="tabpanel" aria-labelledby="route-rag" hidden>
+              <div class="view-intro">
+                <p class="eyebrow">LOCAL RAG OPTIMIZATION</p>
+                <h2>历史关联技术优化</h2>
+                <p>开启后，本地历史检索成为盘中叙事的正式证据层；关闭后完全回退到现有规则链路。两种模式均不生成交易指令。</p>
+              </div>
+              <section id="rag-optimization" class="panel rag-optimization-panel" aria-label="RAG 优化开关与索引状态" aria-live="polite"></section>
+            </section>
+
+            <section id="view-operations" class="xiaomajia-view" data-xiaomajia-view="operations" role="tabpanel" aria-labelledby="route-operations" hidden>
+              <div class="view-intro">
+                <p class="eyebrow">RESEARCH OPERATIONS</p>
+                <h2>小马甲运行状态</h2>
+                <p>查看公开信号监测、归档、候选日报和回补的健康度；本页不提供任何控制或交易入口。</p>
+              </div>
+              <section id="decision-pipeline" class="panel priority-panel" aria-live="polite"></section>
+              <section class="panel" aria-label="运行状态">
+                <div class="panel-heading">
+                  <div>
+                    <p class="eyebrow">OPERATIONS</p>
+                    <h2>运行状态</h2>
+                  </div>
+                </div>
+                <div id="operations" class="operations-list"></div>
+              </section>
+            </section>
+          </section>
+
+          <section id="tab-authors" class="dashboard-tab-panel" role="tabpanel" aria-labelledby="dashboard-tab-authors" hidden>
+            <div class="view-intro">
+              <p class="eyebrow">AUTHOR AGENT PLATFORM</p>
+              <h2>作者 Agent 控制面</h2>
+              <p>配置、隔离和生命周期在这里统一可见；小马甲的研究数据仍保留在独立页签中。草稿生成只在本机浏览器完成，不会自动接入新作者。</p>
+            </div>
+            <section id="author-agents" class="panel author-agents-panel" aria-label="Author Agent 总览与草稿向导" aria-live="polite"></section>
+          </section>
+
+          <section id="tab-hermes" class="dashboard-tab-panel" role="tabpanel" aria-labelledby="dashboard-tab-hermes" hidden>
+            <section class="panel hermes-skills-panel" aria-labelledby="hermes-skills-heading">
+              <div class="panel-heading"><div><p class="eyebrow">HERMES SKILLS</p><h2 id="hermes-skills-heading">技能与文件</h2></div><button id="hermes-skills-refresh" type="button">刷新技能</button></div>
+              <p id="hermes-skills-status" class="logic-meta" aria-live="polite">正在读取技能目录…</p>
+              <div class="hermes-skills-browser"><nav id="hermes-skills-list" aria-label="Hermes技能列表"></nav><nav id="hermes-skills-tree" aria-label="技能目录结构"></nav><section id="hermes-skills-content" aria-label="技能文件内容"></section></div>
+            </section>
+            <aside id="hermes-workbench" class="panel hermes-panel" aria-live="polite"></aside>
+          </section>
+
+          <section id="tab-foundation" class="dashboard-tab-panel" role="tabpanel" aria-labelledby="dashboard-tab-foundation" hidden>
+            <section class="foundation-grid" aria-label="基础能力概览">
+              <section id="daily-interview" class="panel daily-interview-panel" aria-label="每日面试题" aria-live="polite"></section>
+              <section class="panel command-alert-panel">
+                <div class="panel-heading">
+                  <div>
+                    <p class="eyebrow">ATTENTION</p>
+                    <h2>需要跟进</h2>
+                  </div>
+                </div>
+                <div id="command-alerts" class="command-alert-list" aria-live="polite"></div>
+              </section>
+            </section>
+
+            <section class="panel agent-panel" aria-label="Agent 与调度运维">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">AGENT ACTIVITY</p>
+                  <h2>Agent 与调度</h2>
+                </div>
+              </div>
+              <div id="agent-activity" class="agent-activity-grid" aria-live="polite"></div>
+              <details class="scheduled-task-details">
+                <summary>全部启用任务</summary>
+                <div id="scheduled-tasks" class="scheduled-task-list" aria-live="polite"></div>
+              </details>
+            </section>
+          </section>
+        </div>
+      </section>
+
+      <footer>仅供研究，不构成投资建议。 · 静态演示快照 2026/11/15 22:45 · 雪球用户 xxxx</footer>
+    </main>
+    <script src="assets/static-api.js"></script>
+    <script src="assets/demo-ui.js"></script>
+    <script type="module" src="assets/app.js"></script>
+  </body>
+</html>

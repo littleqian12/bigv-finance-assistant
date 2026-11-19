@@ -1,0 +1,12 @@
+{
+  "name": "xiaomajia-command-center-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "snapshot": "node scripts/snapshot.mjs",
+    "build": "node scripts/build-demo.mjs",
+    "check": "node scripts/check.mjs",
+    "smoke": "node scripts/smoke-test.mjs"
+  }
+}

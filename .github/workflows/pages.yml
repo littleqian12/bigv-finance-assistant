@@ -1,0 +1,36 @@
+name: Publish static command center
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: xiaomajia-command-center-pages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/check.mjs
+      - name: Publish docs to gh-pages
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp -d)"
+          cp -R docs/. "$tmp/"
+          git checkout --orphan gh-pages
+          git rm -rf . >/dev/null 2>&1 || true
+          cp -R "$tmp"/. .
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Publish command center demo ${GITHUB_SHA::7} [skip ci]"
+          git push --force origin gh-pages
