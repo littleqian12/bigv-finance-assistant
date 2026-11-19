@@ -1,6 +1,7 @@
 import { cp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
+import { gzipSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -114,6 +115,17 @@ async function main() {
     }
   }
   await sanitize(OUT);
+
+  async function gzipJson(dir) {
+    for (const entry of await readdir(dir, { withFileTypes: true })) {
+      const file = path.join(dir, entry.name);
+      if (entry.isDirectory()) { await gzipJson(file); continue; }
+      if (!entry.name.endsWith('.json')) continue;
+      const source = await readFile(file);
+      await writeFile(`${file}.gz`, gzipSync(source, { level: 9 }));
+    }
+  }
+  await gzipJson(path.join(OUT, 'data'));
 
   console.log('Built static demo into docs');
 }

@@ -8,10 +8,24 @@
   });
   const load = (name) => {
     if (!cache.has(name)) {
-      cache.set(name, nativeFetch(new URL(name, dataBase), { cache: 'no-store' }).then((response) => {
+      cache.set(name, (async () => {
+        try {
+          const compressed = await nativeFetch(new URL(`${name}.gz`, dataBase), { cache: 'no-store' });
+          if (compressed.ok) {
+            const buffer = await compressed.arrayBuffer();
+            try {
+              if (typeof DecompressionStream === 'function') {
+                const stream = new Blob([buffer]).stream().pipeThrough(new DecompressionStream('gzip'));
+                return JSON.parse(await new Response(stream).text());
+              }
+            } catch {}
+            try { return JSON.parse(new TextDecoder().decode(buffer)); } catch {}
+          }
+        } catch {}
+        const response = await nativeFetch(new URL(name, dataBase), { cache: 'no-store' });
         if (!response.ok) throw new Error(`snapshot unavailable: ${name}`);
         return response.json();
-      }).catch((error) => { cache.delete(name); throw error; }));
+      })().catch((error) => { cache.delete(name); throw error; }));
     }
     return cache.get(name);
   };
